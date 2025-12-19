@@ -7,34 +7,49 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #1a1a1a; margin: 0; }
         
-        /* Container que simula um celular no Desktop */
-        .app-shell { 
-            max-width: 430px; 
-            margin: 0 auto; 
-            min-height: 100vh; 
-            background: #ffffff; 
-            position: relative; 
-            display: flex; 
-            flex-direction: column;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0f1115; /* Fundo escuro para destacar o dispositivo */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        .page { display: none; flex-direction: column; flex: 1; animation: fadeIn 0.3s ease; }
-        .page.active { display: flex; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .video-placeholder {
-            aspect-ratio: 16/9;
-            background: #000;
+        /* CONTAINER RESPONSIVO (MÁGICA DO DESKTOP) */
+        .app-shell { 
+            width: 100%;
+            height: 100vh;
+            background: #ffffff;
+            position: relative;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 1rem;
-            color: white;
-            font-weight: bold;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Estilização para Telas Maiores (Desktop) */
+        @media (min-width: 768px) {
+            .app-shell {
+                width: 410px;
+                height: 840px;
+                border-radius: 40px;
+                border: 12px solid #1a1a1a;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        .page { display: none; flex-direction: column; flex: 1; height: 100%; overflow-y: auto; }
+        .page.active { display: flex; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        
+        /* Efeito de brilho nos botões Master */
+        .master-glow { animation: pulse-gold 2s infinite; }
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(234, 88, 12, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
         }
     </style>
 </head>
@@ -42,121 +57,121 @@
 
     <div class="app-shell">
 
-        <section id="page-login" class="page active p-8 justify-center">
-            <div class="text-center mb-10">
+        <section id="page-login" class="page active p-8 flex justify-center bg-zinc-950 text-white">
+            <div class="mt-12 text-center">
                 <h1 class="text-4xl font-black italic tracking-tighter">CLUB SUSHI<span class="text-orange-500">.</span></h1>
-                <p class="text-gray-500 text-sm font-bold uppercase tracking-widest mt-2">Acesso Exclusivo</p>
-            </div>
-            <div class="space-y-4">
-                <input type="email" placeholder="Seu e-mail ou WhatsApp" class="w-full p-4 border-2 border-gray-100 rounded-2xl focus:border-orange-500 outline-none transition-all">
-                <input type="password" placeholder="Sua senha" class="w-full p-4 border-2 border-gray-100 rounded-2xl focus:border-orange-500 outline-none transition-all">
-                <button onclick="navTo('page-home')" class="w-full bg-black text-white font-black py-4 rounded-2xl shadow-xl active:scale-95 transition-all">ENTRAR NO CLUBE</button>
-            </div>
-            <p class="text-center text-xs text-gray-400 mt-6">Ainda não é assinante? <span class="text-orange-600 font-bold cursor-pointer" onclick="navTo('page-venda')">Conheça os Planos</span></p>
-        </section>
-
-        <section id="page-home" class="page">
-            <header class="p-6 bg-black text-white flex justify-between items-center">
-                <div>
-                    <h2 class="font-black italic">CLUB SUSHI.</h2>
-                </div>
-                <div class="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center font-bold">H</div>
-            </header>
-            
-            <main class="p-4 space-y-6">
-                <div class="bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl p-5 text-white shadow-lg">
-                    <p class="text-[10px] font-bold uppercase opacity-80">Próxima Entrega</p>
-                    <h3 class="text-xl font-black">Kit Combo #04</h3>
-                    <p class="text-xs mb-4 italic text-orange-100">Status: Em separação (Peixe Fresco)</p>
-                    <div class="w-full bg-black/20 h-1.5 rounded-full overflow-hidden">
-                        <div class="bg-white w-2/3 h-full"></div>
-                    </div>
-                </div>
-
-                <h3 class="font-black text-lg text-gray-800 uppercase">Minhas Aulas</h3>
+                <p class="text-orange-500 text-[10px] font-black uppercase tracking-[0.3em] mt-2 mb-12">Membro Exclusivo</p>
                 
                 <div class="space-y-4">
-                    <div onclick="openVideo('Arroz Shari', '45min')" class="flex gap-4 p-3 bg-gray-50 border rounded-2xl items-center cursor-pointer hover:border-orange-500 transition-all">
-                        <img src="https://images.unsplash.com/photo-1570780775848-bc1897788ce0?w=200" class="w-16 h-16 rounded-xl object-cover">
-                        <div class="flex-1">
-                            <h4 class="font-bold text-sm">01. Arroz Perfeito</h4>
-                            <p class="text-[10px] text-gray-500 font-bold uppercase">Concluído ✅</p>
-                        </div>
-                        <span class="text-orange-500">▶</span>
-                    </div>
+                    <input type="email" placeholder="E-mail" class="w-full p-4 bg-zinc-900 border border-zinc-800 rounded-2xl outline-none focus:border-orange-500 transition-all">
+                    <input type="password" placeholder="Senha" class="w-full p-4 bg-zinc-900 border border-zinc-800 rounded-2xl outline-none focus:border-orange-500 transition-all">
+                    <button onclick="navTo('page-home')" class="w-full bg-orange-600 font-black py-4 rounded-2xl shadow-lg active:scale-95 transition-all">ENTRAR NO CLUBE</button>
+                </div>
+                <button onclick="navTo('page-venda')" class="mt-8 text-[11px] text-zinc-500 font-bold hover:text-white uppercase tracking-widest">Ainda não é Master? <span class="text-orange-500">Inscreva-se</span></button>
+            </div>
+        </section>
 
-                    <div onclick="openVideo('Corte do Salmão', '20min')" class="flex gap-4 p-3 bg-gray-50 border rounded-2xl items-center cursor-pointer hover:border-orange-500 transition-all">
-                        <img src="https://images.unsplash.com/photo-1534422298391-e4f8c170db76?w=200" class="w-16 h-16 rounded-xl object-cover">
-                        <div class="flex-1">
-                            <h4 class="font-bold text-sm">02. Cortes de Salmão</h4>
-                            <p class="text-[10px] text-gray-500 font-bold uppercase text-orange-600">Assistir Agora</p>
-                        </div>
-                        <span class="text-orange-500">▶</span>
+        <section id="page-home" class="page bg-white hide-scroll">
+            <header class="p-5 bg-white border-b sticky top-0 z-50 flex justify-between items-center">
+                <h2 class="font-black italic text-xl">CLUB SUSHI.</h2>
+                <div class="w-9 h-9 rounded-full bg-orange-100 flex items-center justify-center border-2 border-orange-500">
+                    <span class="text-orange-600 font-bold text-xs italic">VIP</span>
+                </div>
+            </header>
+
+            <main class="p-4 space-y-6">
+                <div class="bg-zinc-900 rounded-[2rem] p-6 text-white shadow-xl">
+                    <p class="text-[9px] font-black text-orange-500 uppercase tracking-widest mb-1">Seu Próximo Kit Master</p>
+                    <h3 class="text-lg font-bold">Peixe Fresco: Salmão Premium</h3>
+                    <p class="text-[11px] text-zinc-400 mb-4 italic">Entrega agendada para Terça-feira.</p>
+                    <div class="w-full bg-zinc-800 h-2 rounded-full">
+                        <div class="bg-orange-500 w-3/4 h-full rounded-full"></div>
                     </div>
+                    <p class="text-[9px] mt-2 text-zinc-500 font-bold uppercase tracking-tighter">75% concluído para o selo de Especialista</p>
                 </div>
 
-                <div class="bg-gray-100 p-6 rounded-3xl text-center border-2 border-dashed border-gray-300">
-                    <h4 class="font-bold text-gray-700">Quer virar Master?</h4>
-                    <p class="text-xs text-gray-500 mb-4">Assine o plano com ingredientes inclusos.</p>
-                    <button onclick="navTo('page-venda')" class="bg-orange-500 text-white font-black px-6 py-2 rounded-full text-xs uppercase shadow-md">Ver Upgrade</button>
+                <div class="flex justify-between items-center px-1">
+                    <h3 class="font-black text-zinc-900 uppercase text-xs">Módulos Liberados</h3>
+                    <span class="text-[10px] font-bold text-orange-600 uppercase">2 / 12 Aulas</span>
+                </div>
+
+                <div class="space-y-3 pb-24">
+                    <div class="flex gap-4 p-4 bg-zinc-50 border border-zinc-100 rounded-2xl items-center opacity-60">
+                        <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center text-white">✓</div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-xs text-zinc-400 line-through">01. O Segredo do Arroz (Shari)</h4>
+                        </div>
+                    </div>
+
+                    <div onclick="openVideo('Anatomia do Salmão')" class="flex gap-4 p-4 bg-white border-2 border-orange-100 rounded-2xl items-center cursor-pointer hover:shadow-lg transition-all active:scale-95">
+                        <img src="https://images.unsplash.com/photo-1534422298391-e4f8c170db76?w=200" class="w-12 h-12 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-xs text-zinc-800">02. A Arte do Corte (Sashimi)</h4>
+                            <p class="text-[9px] text-orange-600 font-black uppercase">Próxima Aula • 22 min</p>
+                        </div>
+                        <span class="text-orange-500 text-sm font-bold">▶</span>
+                    </div>
+
+                    <div onclick="navTo('page-venda')" class="flex gap-4 p-4 bg-zinc-100 border border-dashed rounded-2xl items-center grayscale opacity-50">
+                        <div class="w-12 h-12 bg-zinc-200 rounded-lg flex items-center justify-center">🔒</div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-xs text-zinc-500 tracking-tight">03. Uramakis Gourmet</h4>
+                            <p class="text-[9px] text-zinc-400 font-black uppercase tracking-widest italic">Bloqueado no seu plano</p>
+                        </div>
+                    </div>
                 </div>
             </main>
         </section>
 
-        <section id="page-video" class="page p-4">
-            <button onclick="navTo('page-home')" class="mb-4 text-orange-600 font-bold text-sm flex items-center"> ← Voltar para aulas</button>
-            <div class="video-placeholder mb-4" id="video-display">
-                CARREGANDO VÍDEO...
-            </div>
-            <h2 id="video-title" class="text-xl font-black text-gray-900"></h2>
-            <p id="video-info" class="text-sm text-gray-500 mb-6"></p>
-            
-            <div class="border-t pt-4">
-                <h4 class="font-bold mb-2">Materiais de Apoio</h4>
-                <div class="bg-blue-50 p-4 rounded-xl text-blue-800 text-xs font-bold flex justify-between">
-                    <span>Lista_de_Ingredientes.pdf</span>
-                    <span class="cursor-pointer">Baixar</span>
+        <section id="page-venda" class="page bg-white hide-scroll">
+            <div class="relative h-56 bg-black">
+                <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=600" class="absolute inset-0 w-full h-full object-cover opacity-60">
+                <button onclick="navTo('page-home')" class="absolute top-6 left-6 text-white text-sm font-black uppercase tracking-widest bg-black/40 px-3 py-1 rounded-full">Voltar</button>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <h2 class="text-2xl font-black italic text-white uppercase leading-tight">Chega de ser um<br><span class="text-orange-500 underline">Amador.</span></h2>
                 </div>
             </div>
-            <button onclick="completeLesson()" class="mt-8 w-full bg-green-600 text-white font-black py-4 rounded-2xl shadow-lg">MARCAR COMO CONCLUÍDA</button>
-        </section>
 
-        <section id="page-venda" class="page">
-            <div class="bg-black p-8 text-center text-white relative">
-                <button onclick="navTo('page-login')" class="absolute left-4 top-4 text-xs text-gray-400">Voltar</button>
-                <h2 class="text-3xl font-black italic mb-2">SEJA UM<br>SUSHI MASTER</h2>
-                <p class="text-orange-500 text-xs font-bold uppercase tracking-widest">Escolha seu plano</p>
-            </div>
-            
-            <div class="p-4 space-y-4">
-                <div class="p-6 border-2 border-gray-100 rounded-3xl hover:border-orange-500 transition-all">
-                    <h4 class="font-black text-lg">PLANO DIGITAL</h4>
-                    <p class="text-xs text-gray-500 mb-4">Aulas + Comunidade + Suporte do Chef</p>
-                    <div class="text-2xl font-black mb-4">R$ 29,90 <span class="text-xs text-gray-400 font-normal">/mês</span></div>
-                    <button class="w-full bg-gray-900 text-white py-3 rounded-xl font-bold text-xs">ASSINAR AGORA</button>
+            <div class="p-5 space-y-6 flex-1">
+                <div class="text-center">
+                    <p class="text-[10px] font-black text-orange-600 uppercase tracking-widest">O Plano dos 5.000 Clientes VIP</p>
+                    <h3 class="text-xl font-black text-zinc-900 mt-1">KIT SUSHI MASTER #01</h3>
                 </div>
 
-                <div class="p-6 border-4 border-orange-500 rounded-3xl bg-orange-50 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-orange-500 text-white text-[10px] font-black px-4 py-1 rounded-bl-xl uppercase tracking-tighter">Mais Vendido</div>
-                    <h4 class="font-black text-lg">COMBO CASA</h4>
-                    <p class="text-xs text-gray-500 mb-4">Tudo do Digital + Kit de Ingredientes Mensal para 4 pessoas.</p>
-                    <div class="text-2xl font-black mb-4 text-orange-600">R$ 149,90 <span class="text-xs text-gray-400 font-normal">/mês</span></div>
-                    <button onclick="window.location.href='https://wa.me/SEUNUMERO'" class="w-full bg-orange-500 text-white py-4 rounded-xl font-black text-xs uppercase shadow-xl">QUERO RECEBER O KIT</button>
+                <div class="bg-zinc-50 p-6 rounded-[2rem] border-4 border-orange-500 shadow-2xl space-y-4">
+                    <ul class="text-[11px] font-bold text-zinc-700 space-y-3">
+                        <li class="flex gap-2"><span>🔥</span> Kit Mensal com Salmão Premium</li>
+                        <li class="flex gap-2"><span>🍱</span> Insumos inclusos (Nori, Arroz, Wasabi)</li>
+                        <li class="flex gap-2"><span>👨‍🍳</span> Suporte 24h direto com o Chef</li>
+                        <li class="flex gap-2"><span>💎</span> 20% OFF permanente no Restaurante</li>
+                    </ul>
+
+                    <div class="pt-4 border-t border-zinc-200">
+                        <div class="flex items-end gap-1 mb-4">
+                            <span class="text-3xl font-black text-zinc-900 italic">R$ 149,90</span>
+                            <span class="text-xs text-zinc-400 font-bold uppercase mb-1">/mês</span>
+                        </div>
+                        <button onclick="window.location.href='https://wa.me/SEUNUMERO'" class="w-full bg-orange-600 text-white font-black py-4 rounded-2xl uppercase tracking-widest master-glow transition-all active:scale-95">REIVINDICAR MINHA VAGA</button>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-zinc-900 rounded-[2rem] text-center text-white">
+                    <p class="text-xs italic text-zinc-400 leading-relaxed">"O mesmo peixe que servimos no balcão, entregue na porta da sua casa. O conhecimento sem a matéria-prima é apenas teoria."<br><br><b>- Chef Kenji</b></p>
                 </div>
             </div>
         </section>
 
-        <nav id="navbar" class="hidden fixed bottom-0 max-w-[430px] w-full bg-white border-t flex justify-around py-4 shadow-2xl">
+        <nav id="navbar" class="hidden absolute bottom-0 w-full bg-white/90 backdrop-blur-lg border-t flex justify-around py-4 pb-8 z-50">
             <button onclick="navTo('page-home')" class="text-orange-600 flex flex-col items-center gap-1">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                <span class="text-[9px] font-black uppercase tracking-widest">Aulas</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                <span class="text-[9px] font-black uppercase tracking-widest">Cozinha</span>
             </button>
-            <button onclick="navTo('page-venda')" class="text-gray-400 flex flex-col items-center gap-1">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                <span class="text-[9px] font-black uppercase tracking-widest">Upgrade</span>
+            <button onclick="navTo('page-venda')" class="text-zinc-400 flex flex-col items-center gap-1">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <span class="text-[9px] font-black uppercase tracking-widest">Master</span>
             </button>
-            <button onclick="navTo('page-login')" class="text-gray-400 flex flex-col items-center gap-1">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <button onclick="navTo('page-login')" class="text-zinc-300 flex flex-col items-center gap-1">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="7" r="4"/><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/></svg>
                 <span class="text-[9px] font-black uppercase tracking-widest">Sair</span>
             </button>
         </nav>
@@ -164,34 +179,24 @@
     </div>
 
     <script>
+        // Função de Navegação
         function navTo(pageId) {
-            // Esconde todas as páginas
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            // Mostra a página desejada
             document.getElementById(pageId).classList.add('active');
             
-            // Controle da Navbar (some no login e na venda)
             const navbar = document.getElementById('navbar');
-            if (pageId === 'page-home' || pageId === 'page-video') {
+            // Só mostra a barra se não estiver no Login ou na Venda
+            if (pageId === 'page-home') {
                 navbar.classList.remove('hidden');
             } else {
                 navbar.classList.add('hidden');
             }
-
-            // Scroll para o topo
             window.scrollTo(0, 0);
         }
 
-        function openVideo(title, duration) {
-            document.getElementById('video-title').innerText = title;
-            document.getElementById('video-info').innerText = "Tempo estimado: " + duration + " • Nível: Iniciante";
-            document.getElementById('video-display').innerHTML = `VÍDEO: ${title} <br> [PLAY]`;
-            navTo('page-video');
-        }
-
-        function completeLesson() {
-            alert("Aula concluída! +10 pontos no Club Sushi.");
-            navTo('page-home');
+        // Simulação de Player
+        function openVideo(title) {
+            alert("👨‍🍳 CHEF KENJI DIZ:\n\nIniciando aula: " + title + "\n\nO vídeo será carregado em seu player padrão.");
         }
     </script>
 </body>
