@@ -7,116 +7,87 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
-        .app-container { max-width: 450px; margin: 0 auto; min-height: 100vh; background: white; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        body { font-family: 'Inter', sans-serif; background-color: #000; margin: 0; padding: 0; }
+        .app-container { max-width: 450px; margin: 0 auto; min-height: 100vh; background: white; position: relative; display: flex; flex-direction: column; }
         .hide-scroll::-webkit-scrollbar { display: none; }
+        .active-tab { color: #ea580c !important; }
     </style>
 </head>
 <body>
 
-    <div id="root" class="app-container flex flex-col relative">
-        </div>
+    <div class="app-container">
+        <header class="p-6 bg-black text-white sticky top-0 z-50 shadow-xl">
+            <h1 class="text-2xl font-black italic tracking-tighter">CLUB SUSHI <span class="text-orange-500">.</span></h1>
+            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Área Exclusiva para Membros</p>
+        </header>
 
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script type="text/babel">
-        const { useState } = React;
-
-        // Componente de Ícones Simples (SVG) para evitar erros de biblioteca externa
-        const Icon = ({ name, active }) => {
-            const color = active ? "#ea580c" : "#9ca3af";
-            const icons = {
-                book: <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>,
-                cart: <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>,
-                user: <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            };
-            return (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    {icons[name]}
-                </svg>
-            );
-        };
-
-        const App = () => {
-            const [tab, setTab] = useState('aulas');
-
-            return (
-                <div className="flex flex-col min-h-screen">
-                    {/* HEADER */}
-                    <header className="p-6 bg-black text-white sticky top-0 z-50">
-                        <h1 className="text-2xl font-black italic tracking-tighter text-white">
-                            CLUB SUSHI <span className="text-orange-500">.</span>
-                        </h1>
-                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Premium Member Area</p>
-                    </header>
-
-                    {/* CONTEÚDO */}
-                    <main className="flex-1 p-4 pb-24 overflow-y-auto hide-scroll">
-                        
-                        {/* CARD DE STATUS */}
-                        <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl p-5 text-white shadow-lg mb-8">
-                            <h2 className="text-xl font-black mb-1">Bem-vindo, Chef!</h2>
-                            <p className="text-xs opacity-90 mb-4">Seu kit de Salmão Fresco chega em breve.</p>
-                            <div className="bg-black/20 h-1.5 rounded-full w-full">
-                                <div className="bg-white h-full rounded-full w-[65%]"></div>
-                            </div>
-                        </div>
-
-                        {/* LISTA DE AULAS */}
-                        <h3 className="font-black text-gray-900 uppercase mb-4 tracking-tight">Suas Aulas Liberadas</h3>
-                        
-                        <div className="space-y-4">
-                            {[
-                                { t: "Arroz de Sushi (Shari)", d: "15 min", img: "https://images.unsplash.com/photo-1570780775848-bc1897788ce0?w=200" },
-                                { t: "Corte do Peixe", d: "12 min", img: "https://images.unsplash.com/photo-1534422298391-e4f8c170db76?w=200" },
-                                { t: "Uramaki Philadelphia", d: "22 min", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=200" }
-                            ].map((aula, i) => (
-                                <div key={i} className="flex gap-4 p-3 bg-white border border-gray-100 rounded-2xl shadow-sm items-center">
-                                    <img src={aula.img} className="w-16 h-16 rounded-xl object-cover shadow-sm" />
-                                    <div className="flex-1">
-                                        <h4 className="font-bold text-sm text-gray-800 leading-tight">{aula.t}</h4>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-tighter mt-1">Duração: {aula.d}</p>
-                                    </div>
-                                    <button className="bg-orange-100 p-2 rounded-full text-orange-600">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* UPGRADE SECTION */}
-                        <div className="mt-8 p-6 bg-gray-900 rounded-3xl text-center text-white">
-                            <p className="text-[10px] font-black text-orange-500 uppercase mb-2">Plano Master</p>
-                            <h4 className="text-lg font-bold mb-4 leading-tight">Receba Ingredientes em Casa todos os meses</h4>
-                            <button className="w-full bg-white text-black font-black py-3 rounded-xl text-xs uppercase tracking-widest hover:bg-orange-500 hover:text-white transition-all">
-                                Fazer Upgrade
-                            </button>
-                        </div>
-                    </main>
-
-                    {/* NAVEGAÇÃO */}
-                    <nav className="fixed bottom-0 max-w-[450px] w-full bg-white/95 backdrop-blur-md border-t flex justify-around py-3 pb-5">
-                        <button onClick={() => setTab('aulas')} className="flex flex-col items-center gap-1">
-                            <Icon name="book" active={tab === 'aulas'} />
-                            <span className={`text-[9px] font-black uppercase ${tab === 'aulas' ? 'text-orange-600' : 'text-gray-400'}`}>Aulas</span>
-                        </button>
-                        <button onClick={() => setTab('loja')} className="flex flex-col items-center gap-1">
-                            <Icon name="cart" active={tab === 'loja'} />
-                            <span className={`text-[9px] font-black uppercase ${tab === 'loja' ? 'text-orange-600' : 'text-gray-400'}`}>Loja</span>
-                        </button>
-                        <button onClick={() => setTab('perfil')} className="flex flex-col items-center gap-1">
-                            <Icon name="user" active={tab === 'perfil'} />
-                            <span className={`text-[9px] font-black uppercase ${tab === 'perfil' ? 'text-orange-600' : 'text-gray-400'}`}>Perfil</span>
-                        </button>
-                    </nav>
+        <main class="flex-1 p-4 pb-24 overflow-y-auto hide-scroll">
+            
+            <div class="bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl p-5 text-white shadow-lg mb-8 transition-transform active:scale-95">
+                <h2 class="text-xl font-black mb-1">Olá, Sushi Master!</h2>
+                <p class="text-xs opacity-90 mb-4">Seu kit de Salmão & Atum chega em 48h.</p>
+                <div class="bg-black/20 h-1.5 rounded-full w-full">
+                    <div class="bg-white h-full rounded-full" style="width: 70%"></div>
                 </div>
-            );
-        };
+            </div>
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+            <div id="content-area">
+                <h3 class="font-black text-gray-900 uppercase mb-4 tracking-tight">Aulas da Semana</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex gap-4 p-3 bg-gray-50 border border-gray-100 rounded-2xl items-center shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1570780775848-bc1897788ce0?w=200" class="w-16 h-16 rounded-xl object-cover" />
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm text-gray-800">O Arroz Perfeito (Shari)</h4>
+                            <p class="text-[10px] text-gray-500 font-bold uppercase">Aulas: 01 • 15 min</p>
+                        </div>
+                        <div class="bg-orange-500 p-2 rounded-full text-white">▶</div>
+                    </div>
+
+                    <div class="flex gap-4 p-3 bg-gray-50 border border-gray-100 rounded-2xl items-center shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1534422298391-e4f8c170db76?w=200" class="w-16 h-16 rounded-xl object-cover" />
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm text-gray-800">Cortes Estilo Sashimi</h4>
+                            <p class="text-[10px] text-gray-500 font-bold uppercase">Aulas: 02 • 20 min</p>
+                        </div>
+                        <div class="bg-orange-500 p-2 rounded-full text-white">▶</div>
+                    </div>
+
+                    <div class="flex gap-4 p-3 bg-gray-50 border border-gray-100 rounded-2xl items-center shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=200" class="w-16 h-16 rounded-xl object-cover" />
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm text-gray-800">Uramaki Philadelphia</h4>
+                            <p class="text-[10px] text-gray-500 font-bold uppercase">Aulas: 03 • 25 min</p>
+                        </div>
+                        <div class="bg-orange-500 p-2 rounded-full text-white">▶</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-black rounded-3xl text-center text-white border-2 border-orange-500">
+                <p class="text-[10px] font-black text-orange-500 uppercase mb-2 italic">Oferta Limitada</p>
+                <h4 class="text-lg font-bold mb-4">Acesso Vitalício + Kit Master</h4>
+                <button class="w-full bg-orange-500 text-white font-black py-4 rounded-2xl text-xs uppercase tracking-widest active:scale-95 transition-all shadow-lg shadow-orange-900/20">
+                    QUERO O MEU AGORA
+                </button>
+            </div>
+        </main>
+
+        <nav class="fixed bottom-0 max-w-[450px] w-full bg-white/95 backdrop-blur-md border-t flex justify-around py-4 pb-6">
+            <div class="flex flex-col items-center gap-1 active-tab">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span class="text-[9px] font-black uppercase">Home</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-gray-400">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <span class="text-[9px] font-black uppercase">Loja</span>
+            </div>
+            <div class="flex flex-col items-center gap-1 text-gray-400">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span class="text-[9px] font-black uppercase">Perfil</span>
+            </div>
+        </nav>
+    </div>
+
 </body>
 </html>
