@@ -3,138 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Club Sushi VIP - App</title>
+    <title>Club Sushi VIP</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .gold-gradient { background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); }
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .app-container { max-width: 450px; margin: 0 auto; min-height: 100vh; background: white; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        .hide-scroll::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="bg-gray-100">
-    <div id="root"></div>
+<body>
+
+    <div id="root" class="app-container flex flex-col relative">
+        </div>
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState } = React;
 
-        // Componente de Ícone Auxiliar (Como Lucide não carrega direto no React via CDN facilmente, usamos SVGs simples)
-        const Icon = ({ name }) => {
+        // Componente de Ícones Simples (SVG) para evitar erros de biblioteca externa
+        const Icon = ({ name, active }) => {
+            const color = active ? "#ea580c" : "#9ca3af";
             const icons = {
-                play: <path d="m6 3 14 9-14 9V3z"/>,
-                book: <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/>,
+                book: <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>,
                 cart: <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>,
                 user: <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
             };
             return (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     {icons[name]}
                 </svg>
             );
         };
 
         const App = () => {
-            const [activeTab, setActiveTab] = useState('receitas');
-
-            const planos = [
-                { nome: 'Digital', preco: '29,90', cor: 'border-gray-200' },
-                { nome: 'Combo Casa', preco: '149,90', cor: 'border-orange-500', destaque: true },
-                { nome: 'Master', preco: '299,90', cor: 'border-yellow-500' }
-            ];
-
-            const receitas = [
-                { id: 1, titulo: "Shari Perfeito (Arroz)", tempo: "45min", chef: "Kenji", imagem: "https://images.unsplash.com/photo-1570780775848-bc1897788ce0?auto=format&fit=crop&w=300&q=80" },
-                { id: 2, titulo: "Corte de Salmão Premium", tempo: "20min", chef: "Kenji", imagem: "https://images.unsplash.com/photo-1534422298391-e4f8c170db76?auto=format&fit=crop&w=300&q=80" },
-                { id: 3, titulo: "Uramaki Philadelphia", tempo: "30min", chef: "Kenji", imagem: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=300&q=80" }
-            ];
+            const [tab, setTab] = useState('aulas');
 
             return (
-                <div className="max-w-md mx-auto bg-white min-h-screen shadow-2xl flex flex-col relative">
-                    {/* Header */}
-                    <header className="p-6 bg-black text-white sticky top-0 z-10">
-                        <h1 className="text-2xl font-black tracking-tighter italic">CLUB SUSHI <span className="text-orange-500">.</span></h1>
-                        <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold">A Experiência Masterchef na sua Casa</p>
+                <div className="flex flex-col min-h-screen">
+                    {/* HEADER */}
+                    <header className="p-6 bg-black text-white sticky top-0 z-50">
+                        <h1 className="text-2xl font-black italic tracking-tighter text-white">
+                            CLUB SUSHI <span className="text-orange-500">.</span>
+                        </h1>
+                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Premium Member Area</p>
                     </header>
 
-                    {/* Conteúdo Principal */}
-                    <main className="flex-1 overflow-y-auto p-4 pb-24">
+                    {/* CONTEÚDO */}
+                    <main className="flex-1 p-4 pb-24 overflow-y-auto hide-scroll">
                         
-                        {/* Status da Assinatura */}
-                        <section className="mb-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl p-5 text-white shadow-xl">
-                            <div className="flex justify-between items-start mb-4">
-                                <div>
-                                    <h2 className="font-bold text-xl leading-tight">Olá, Futuro Sushiman!</h2>
-                                    <p className="text-sm opacity-90">Seu próximo Kit chega em 48h.</p>
+                        {/* CARD DE STATUS */}
+                        <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl p-5 text-white shadow-lg mb-8">
+                            <h2 className="text-xl font-black mb-1">Bem-vindo, Chef!</h2>
+                            <p className="text-xs opacity-90 mb-4">Seu kit de Salmão Fresco chega em breve.</p>
+                            <div className="bg-black/20 h-1.5 rounded-full w-full">
+                                <div className="bg-white h-full rounded-full w-[65%]"></div>
+                            </div>
+                        </div>
+
+                        {/* LISTA DE AULAS */}
+                        <h3 className="font-black text-gray-900 uppercase mb-4 tracking-tight">Suas Aulas Liberadas</h3>
+                        
+                        <div className="space-y-4">
+                            {[
+                                { t: "Arroz de Sushi (Shari)", d: "15 min", img: "https://images.unsplash.com/photo-1570780775848-bc1897788ce0?w=200" },
+                                { t: "Corte do Peixe", d: "12 min", img: "https://images.unsplash.com/photo-1534422298391-e4f8c170db76?w=200" },
+                                { t: "Uramaki Philadelphia", d: "22 min", img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=200" }
+                            ].map((aula, i) => (
+                                <div key={i} className="flex gap-4 p-3 bg-white border border-gray-100 rounded-2xl shadow-sm items-center">
+                                    <img src={aula.img} className="w-16 h-16 rounded-xl object-cover shadow-sm" />
+                                    <div className="flex-1">
+                                        <h4 className="font-bold text-sm text-gray-800 leading-tight">{aula.t}</h4>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-tighter mt-1">Duração: {aula.d}</p>
+                                    </div>
+                                    <button className="bg-orange-100 p-2 rounded-full text-orange-600">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    </button>
                                 </div>
-                                <div className="bg-white/20 backdrop-blur-md p-2 rounded-xl text-[10px] font-black tracking-tighter uppercase">Membro VIP</div>
-                            </div>
-                            <div className="w-full bg-black/20 h-2 rounded-full overflow-hidden">
-                                <div className="bg-white w-3/4 h-full"></div>
-                            </div>
-                            <p className="text-[10px] mt-2 font-bold opacity-80 uppercase">Progresso do Módulo: 75% concluído</p>
-                        </section>
+                            ))}
+                        </div>
 
-                        {/* Receitas */}
-                        <section className="mb-8">
-                            <div className="flex justify-between items-center mb-6">
-                                <h3 className="font-black text-lg text-gray-900 uppercase">Aulas do Chef</h3>
-                                <button className="text-orange-600 text-xs font-black uppercase">Ver Todas</button>
-                            </div>
-                            <div className="space-y-4">
-                                {receitas.map(r => (
-                                    <div key={r.id} className="flex gap-4 p-3 bg-gray-50 rounded-2xl border border-gray-100 transition-all active:scale-95">
-                                        <div className="relative">
-                                            <img src={r.imagem} className="w-24 h-24 rounded-xl object-cover shadow-md" alt={r.titulo} />
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <div className="bg-white/80 p-1.5 rounded-full shadow-lg">
-                                                    <Icon name="play" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="flex flex-col justify-center flex-1">
-                                            <h4 className="font-bold text-gray-800 leading-tight mb-1">{r.titulo}</h4>
-                                            <p className="text-xs text-gray-500 font-medium italic">Chef {r.chef} • {r.tempo}</p>
-                                            <div className="flex mt-2 text-yellow-500 space-x-0.5">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-
-                        {/* Upgrade de Planos */}
-                        <section>
-                            <h3 className="font-black text-lg text-gray-900 uppercase mb-4 text-center">Suba de Nível</h3>
-                            <div className="flex gap-4 overflow-x-auto pb-6 px-2">
-                                {planos.map(p => (
-                                    <div key={p.nome} className={`min-w-[160px] p-5 rounded-3xl border-2 bg-white ${p.cor} shadow-sm flex flex-col items-center text-center`}>
-                                        <span className="text-[10px] font-black uppercase text-gray-400 mb-1">{p.nome}</span>
-                                        <div className="text-2xl font-black text-gray-900">R${p.preco.split(',')[0]}<span className="text-sm">,{p.preco.split(',')[1]}</span></div>
-                                        <p className="text-[9px] text-gray-500 font-bold mb-4 uppercase">Por mês</p>
-                                        <button className={`w-full py-2.5 rounded-xl text-[10px] font-black tracking-widest uppercase transition-colors ${p.destaque ? 'bg-orange-600 text-white shadow-lg shadow-orange-200' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'}`}>Assinar</button>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
+                        {/* UPGRADE SECTION */}
+                        <div className="mt-8 p-6 bg-gray-900 rounded-3xl text-center text-white">
+                            <p className="text-[10px] font-black text-orange-500 uppercase mb-2">Plano Master</p>
+                            <h4 className="text-lg font-bold mb-4 leading-tight">Receba Ingredientes em Casa todos os meses</h4>
+                            <button className="w-full bg-white text-black font-black py-3 rounded-xl text-xs uppercase tracking-widest hover:bg-orange-500 hover:text-white transition-all">
+                                Fazer Upgrade
+                            </button>
+                        </div>
                     </main>
 
-                    {/* Navegação Inferior */}
-                    <nav className="fixed bottom-0 max-w-md w-full border-t bg-white/90 backdrop-blur-xl flex justify-around p-4 pb-6 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
-                        <button onClick={() => setActiveTab('receitas')} className={`flex flex-col items-center gap-1 ${activeTab === 'receitas' ? 'text-orange-600' : 'text-gray-400 transition-colors hover:text-gray-600'}`}>
-                            <Icon name="book" />
-                            <span className="text-[10px] font-black uppercase">Aulas</span>
+                    {/* NAVEGAÇÃO */}
+                    <nav className="fixed bottom-0 max-w-[450px] w-full bg-white/95 backdrop-blur-md border-t flex justify-around py-3 pb-5">
+                        <button onClick={() => setTab('aulas')} className="flex flex-col items-center gap-1">
+                            <Icon name="book" active={tab === 'aulas'} />
+                            <span className={`text-[9px] font-black uppercase ${tab === 'aulas' ? 'text-orange-600' : 'text-gray-400'}`}>Aulas</span>
                         </button>
-                        <button onClick={() => setActiveTab('loja')} className={`flex flex-col items-center gap-1 ${activeTab === 'loja' ? 'text-orange-600' : 'text-gray-400'}`}>
-                            <Icon name="cart" />
-                            <span className="text-[10px] font-black uppercase">Loja</span>
+                        <button onClick={() => setTab('loja')} className="flex flex-col items-center gap-1">
+                            <Icon name="cart" active={tab === 'loja'} />
+                            <span className={`text-[9px] font-black uppercase ${tab === 'loja' ? 'text-orange-600' : 'text-gray-400'}`}>Loja</span>
                         </button>
-                        <button onClick={() => setActiveTab('perfil')} className={`flex flex-col items-center gap-1 ${activeTab === 'perfil' ? 'text-orange-600' : 'text-gray-400'}`}>
-                            <Icon name="user" />
-                            <span className="text-[10px] font-black uppercase">Perfil</span>
+                        <button onClick={() => setTab('perfil')} className="flex flex-col items-center gap-1">
+                            <Icon name="user" active={tab === 'perfil'} />
+                            <span className={`text-[9px] font-black uppercase ${tab === 'perfil' ? 'text-orange-600' : 'text-gray-400'}`}>Perfil</span>
                         </button>
                     </nav>
                 </div>
