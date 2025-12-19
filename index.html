@@ -1,0 +1,86 @@
+import React, { useState } from 'react';
+import { Play, Book, ShoppingCart, User, Star, ChevronRight } from 'lucide-react';
+
+const App = () => {
+  const [activeTab, setActiveTab] = useState('receitas');
+
+  const planos = [
+    { nome: 'Digital', preco: '29,90', cor: 'bg-gray-100' },
+    { nome: 'Combo Casa', preco: '149,90', cor: 'bg-orange-100', destaque: true },
+    { nome: 'Master', preco: '299,90', cor: 'bg-gold-100' }
+  ];
+
+  const receitas = [
+    { id: 1, titulo: "Shari Perfeito (Arroz)", tempo: "45min", chef: "Kenji", imagem: "https://images.unsplash.com/photo-1570780775848-bc1897788ce0?auto=format&fit=crop&w=300&q=80" },
+    { id: 2, titulo: "Corte de Salmão Premium", tempo: "20min", chef: "Kenji", imagem: "https://images.unsplash.com/photo-1534422298391-e4f8c170db76?auto=format&fit=crop&w=300&q=80" }
+  ];
+
+  return (
+    <div className="max-w-md mx-auto bg-white min-h-screen shadow-2xl font-sans flex flex-col">
+      {/* Header */}
+      <header className="p-6 bg-black text-white">
+        <h1 className="text-2xl font-bold tracking-tighter">CLUB SUSHI <span className="text-orange-500">.</span></h1>
+        <p className="text-xs text-gray-400">A experiência do restaurante na sua bancada.</p>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-y-auto p-4">
+        
+        {/* Banner Assinatura */}
+        <section className="mb-8 bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-4 text-white shadow-lg">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="font-bold text-lg">Seu Kit "Combo Casa"</h2>
+              <p className="text-sm opacity-90">Chega em: 2 dias</p>
+            </div>
+            <div className="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">ATIVO</div>
+          </div>
+        </section>
+
+        {/* Receitas Destaque */}
+        <section className="mb-8">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="font-bold text-gray-800">Aulas da Semana</h3>
+            <span className="text-orange-600 text-sm font-semibold">Ver todas</span>
+          </div>
+          <div className="space-y-4">
+            {receitas.map(r => (
+              <div key={r.id} className="flex gap-4 p-2 border rounded-xl hover:bg-gray-50 cursor-pointer">
+                <img src={r.imagem} className="w-20 h-20 rounded-lg object-cover" alt={r.titulo} />
+                <div className="flex flex-col justify-center">
+                  <h4 className="font-bold text-sm">{r.titulo}</h4>
+                  <p className="text-xs text-gray-500">Chef {r.chef} • {r.tempo}</p>
+                  <div className="flex mt-1 text-orange-400"><Star size={12} fill="currentColor"/><Star size={12} fill="currentColor"/><Star size={12} fill="currentColor"/></div>
+                </div>
+                <div className="ml-auto flex items-center pr-2"><Play size={20} className="text-gray-300"/></div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Planos de Upgrade */}
+        <section className="mb-4">
+          <h3 className="font-bold mb-4 text-gray-800">Melhore sua experiência</h3>
+          <div className="flex gap-3 overflow-x-auto pb-4">
+            {planos.map(p => (
+              <div key={p.nome} className={`min-w-[140px] p-4 rounded-2xl border-2 ${p.destaque ? 'border-orange-500' : 'border-gray-100'} shadow-sm`}>
+                <p className="text-xs font-bold uppercase text-gray-400">{p.nome}</p>
+                <p className="text-lg font-black mt-1">R${p.preco}</p>
+                <button className={`mt-3 w-full py-2 rounded-lg text-xs font-bold ${p.destaque ? 'bg-orange-500 text-white' : 'bg-gray-800 text-white'}`}>ASSINAR</button>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
+
+      {/* Nav Bar */}
+      <nav className="border-t flex justify-around p-4 bg-gray-50">
+        <button onClick={() => setActiveTab('receitas')} className={activeTab === 'receitas' ? 'text-orange-500' : 'text-gray-400'}><Book size={24} /></button>
+        <button onClick={() => setActiveTab('loja')} className={activeTab === 'loja' ? 'text-orange-500' : 'text-gray-400'}><ShoppingCart size={24} /></button>
+        <button onClick={() => setActiveTab('perfil')} className={activeTab === 'perfil' ? 'text-orange-500' : 'text-gray-400'}><User size={24} /></button>
+      </nav>
+    </div>
+  );
+};
+
+export default App;
